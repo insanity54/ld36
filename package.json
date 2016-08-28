@@ -1,0 +1,25 @@
+{
+  "name": "ld36",
+  "version": "1.0.0",
+  "description": "hai",
+  "main": "index.js",
+  "dependencies": {
+    "bower": "^1.7.9",
+    "phaser": "^2.6.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "browserify ./main.js -o ./dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/insanity54/ld36.git"
+  },
+  "author": "Chris Grimmett <chris@grimtech.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/insanity54/ld36/issues"
+  },
+  "homepage": "https://github.com/insanity54/ld36#readme"
+}
