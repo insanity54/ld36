@@ -6,25 +6,30 @@ enteredPassword=""
 companyname="Distributed Energy Cho[REDACTED] Terraforming Intelligence c/o L.Ephix."
 newAccount=1
 level=0
+isLevelCAGIBlocked=1
+isLevelPeteMouthBlocked=1        # blocked until player closes Pete's session
+isLevelPeteHandBlocked=1         # blocked until player closes Pete's session
+isLevelEnchantmentBlocked=1      # blocked until player learns enchantment
+isLevelDisenchantmentBlocked=1   # blocked until player learns disenchantment
+
 
 function isAccountExists() {
   # If the account exists, return true
-  if [[ -f accounts/$1.txt ]]; then
+  if [[ "$1" == 'pete' ]]; then
+    echo 1
+  elif [[ -f "accounts/$1.txt" ]]; then
     echo 1
   fi
 }
 
 
-# function logInOrCreate() {
-#   if [[ -f accounts/$1.txt ]]; then
-#     echo
-#   fi
-# }
+
 
 function loadAccount() {
   # load the account data
   password=$(sed -n -E 's/password=(.*)$/\1/ p' "accounts/$1.txt")
-     level=$(sed -n -E 's/level=(.*)/\1/ p' "accounts/$1.txt")
+  level=$(sed -n -E 's/level=(.*)/\1/ p' "accounts/$1.txt")
+  levelCAGI=$(sed -n -E 's/levelCAGI=(.*)/\1/ p' "accounts/$1.txt")
   #echo "loaded $password and $level"
 }
 
@@ -32,6 +37,36 @@ function createAccount() {
   echo -e "password=$password" > "accounts/$username.txt"
   echo -e "username=$username" >> "accounts/$username.txt"
   echo -e "level=0" >> "accounts/$username.txt"
+}
+
+# player cleared Pete's session from CAGI
+function clearCAGI() {
+  levelCAGI=
+  echo -e "levelCAGI=clear" >> "accounts/$1.txt"
+}
+
+# player obtained knowledge of the disenchantment
+function clearDisenchantment() {
+  isLevelDisenchantmentBlocked=0
+  echo -e "isLevelDisenchantmentBlocked=0" >> "accounts/$1.txt"
+}
+
+# player obtained knowledge of the enchantment
+function clearEnchantment() {
+  isLevelEnchantmentBlocked=0
+  echo -e "isLevelEnchantmentBlocked=0" >> "accounts/$1.txt"
+}
+
+# player closed pete's CAGI session
+function clearPeteMouth() {
+  isLevelPeteMouthBlocked=0
+  echo -e "isLevelPeteMouthBlocked=0" >> "accounts/$1.txt"
+}
+
+# player closed pete's CAGI session
+function clearPeteHand() {
+  isLevelPeteHandBlocked=0
+  echo -e "isLevelPeteHandBlocked=0" >> "accounts/$1.txt"
 }
 
 
@@ -43,7 +78,7 @@ function separator() {
 }
 
 function isXDBExists() {
-  if [[ -f "xdb/$1" ]]; then
+  if [[ -f "xdb/$1.dat" ]]; then
     echo 1
   else
     echo 0
@@ -52,17 +87,21 @@ function isXDBExists() {
 
 function loadXDB() {
   if [[ -z "$1" ]]; then
-    echo "  You did not enter a XDB designator. Please try again."
-    menuXDB
-  fi
+    echo "  You did not enter an XDB designator. Please try again."
 
-  if [[ $isXDBExists ]]; then
-    xdb_title=$(sed -n -E 's/title=(.*)/\1/ p' "xdb/$1.dat")
-    xdb_description=$(sed -E 's/description=(.*)$/\1/ p' "xdb/$1.dat")
+  elif [[ $(isXDBExists "$1") -eq 1 ]]; then
+    separator
+    cat "xdb/$1.dat" | more
+    echo ""
+
   else
-    echo "  ACCESS DENIED. That XDB entry is for eyes above your paygrade."
-    menuXDB
+    echo "  ///////////////////"
+    echo "  // ACCESS DENIED //"
+    echo "  ///////////////////"
+    echo ""
+    echo "  That XDB entry is for eyes above your paygrade."
   fi
+  menuXDB
 }
 
 function remoteView() {
@@ -116,10 +155,10 @@ function remoteView() {
   )
 
   # if argument is not empty, continue
-  if [[ ! -z "$1" ]]; then
+  if [[ -n "$1" ]]; then
 
     # if target does not exist, exit rv
-    if [[ ! $isXDBExists ]]; then
+    if [[ $(isXDBExists "$1") -ne 1 ]]; then
       echo "  ACCESS DENIED. This XDB is for eyes above your paygrade."
       menuCARVE
     fi
@@ -162,6 +201,7 @@ function remoteView() {
     echo ""
     echo "  When you have a visual of the target, press ENTER to mind dump to the screen."
     echo "    (Controls for zoom and pan will be shown on screen at that time)"
+    read
     cacaview esp/ESP-001.png
     menuCARVE
 
@@ -169,6 +209,21 @@ function remoteView() {
     echo "  You did not designate a target. Please try again."
     menuCARVE
   fi
+}
+
+# greets http://fitnr.com/showing-a-bash-spinner.html
+function spinner()
+{
+    local delay=0.2
+    local spinstr='|/-\'
+    for (( c=1; c<=10; c++ )); do
+        local temp=${spinstr#?}
+        printf " [%c]  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b\b\b"
+    done
+    printf "    \b\b\b\b"
 }
 
 
@@ -246,58 +301,93 @@ mail() {
 }
 
 
-menuXDBBrowse() {
-  menuHEADER "XDB X-DATABASE BROWSER"
-  echo "  Press (UP|DOWN|ENTER) to browse. Press Q to quit."
-  echo "  Loading XDB..."
+function menuCAGIInsert() {
+  menuHEADER "Computer Aided Cognitive Inception"
+  if [[ "$username" == 'pete' || "$username" == 'Pete' || "$username" == 'PETE' ]]; then
 
-  i=1000
-  list=""
-  while [[ $i -le 5000 ]]; do
+    if [[ "$isLevelCAGIBlocked" ]]; then
+      echo "  // Error //"
+      echo "  CAGI already in use by this user."
+      echo "  source MAC FemDroidi778_:E0:01:05 via Access Point ap01.internal.rotchford.rot"
+      echo ""
+      printf "  Force-close existing session? (N|y): "
+      read forceClose
 
-    # j=0
-    # while [[ $j -le 4 ]]; do
-    #   if [[ $j -eq 1 ]]; then
-    #     letter=A;
-    #   elif [[ $j -eq 2 ]]; then
-    #     letter=B;
-    #   elif [[ $j -eq 3 ]]; then
-    #     letter=C;
-    #   elif [[ $j -eq 4 ]]; then
-    #     letter=D;
-    #   fi
+      if [[ "$forceClose" == 'Y' || "$forceClose" == 'y' ]]; then
+        spinner
+        clearCAGI "$username"
+        clearPeteMouth "$username"
+        clearPeteHand "$username"
+        echo ""
+        echo "  Session has been cleared."
+      else
+        echo ""
+        echo "  Nothing done. Returning to CAGI menu."
+        echo ""
+        menuCAGI
+      fi
 
-      list="$list X-$i\n"
-      # j=$((j+1))
-    # done
-    i=$((i+1))
-  done
+    else
+      # switched to user pete, and pete is not in a CAGI session.
+      echo "  ////////////////////"
+      echo "  // CRITICAL ERROR //"
+      echo "  ////////////////////"
+      echo ""
+      echo "  mind5sum mismatch. You are obviously not Pete."
+      echo "  CAGI session must originate from the Esper's genuine body."
+      echo ""
+      menuCAGI
+    fi
 
-  echo -e "$list" | less
+
+
+  else
+    echo "  Access Restricted by DRM."
+    echo "  License key b.293_fr required to unlock this feature. "
+    printf '\e[1;34m%-6s\e[m\n' "Buffer overflow. :-1, -1, -1, /%&STR \"POSTMESSENGER Fatal Delivery Failure: x111p_32.64.48.hex.gz\""
+    menu
+  fi
 }
+
+menuCAGI() {
+  menuHEADER "Computer Aided Cognitive Inception"
+  echo "  1) INSRT  .......... Insert unoriginal thought into target's subconscious"
+  echo "  2) MAIN   .......... Return to Main Menu"
+  echo ""
+  printf "  #-> "
+  read selection
+  if   [[ $selection -eq 1 || $selection == 'INSRT' || $selection == 'insrt' ]]; then
+    menuCAGIInsert
+  elif [[ $selection -eq 2 || $selection == 'MAIN' || $selection == 'main' ]]; then
+    menu
+  fi
+  echo "  Please make a selection."
+  menuCAGI
+
+
+}
+
+
 
 
 
 menuXDBLookup() {
   menuHEADER "XDB X-DATABASE LOOKUP"
-  printf "  Enter the XDB Designation:  "
+  printf "  Enter the 4-Digit XDB Designation:  "
   read lookup
   loadXDB "$lookup"
 }
 
 menuXDB() {
   menuHEADER "XDB X-DATABASE"
-  echo "  1) LOOKUP  ..........  Lookup an X report using it's number"
-  echo "  2) BROWSE  ..........  Browse all entries in the X-Database"
-  echo "  3) MAIN    ..........  Return to the main menu"
+  echo "  1) LOOKUP  ..........  Lookup an X report using it's 4 digit number"
+  echo "  2) MAIN    ..........  Return to the main menu"
   echo ""
   printf "  #-> "
   read selection
   if   [[ $selection -eq 1 || $selection == 'LOOKUP' || $selection == 'lookup' ]]; then
     menuXDBLookup
-  elif [[ $selection -eq 2 || $selection == 'BROWSE' || $selection == 'browse' ]]; then
-    menuXDBBrowse
-  elif [[ $selection -eq 3 || $selection == "MAIN" || $selection == 'main' ]]; then
+  elif [[ $selection -eq 2 || $selection == "MAIN" || $selection == 'main' ]]; then
     menu
   fi
 }
@@ -335,105 +425,144 @@ menu() {
 
 
 
-# game script
+function connectionHeader() {
+  separator
+  echo "+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+"
+  echo "| connection established                       |"
+  echo "| rDNT v3.2beta_patch_iss_04.rrt     UP | OK   |"
+  echo "|                                  DOWN | OK   |"
+  echo "|                                              |"
+  echo "|                                              |"
+  echo "| DECTILE Remote Access Client v3.02           |"
+  echo "| swrvd.geo-sh_003.rot                         |"
+  echo "|                                              |"
+  echo "|                                              |"
+  echo '|         I.   . ..::::::,..                   |'
+  echo '|      =:. ...::=++=~~=~~=+=~:: .  .Z~         |'
+  echo '|    ~,.. .::+=~~~~~~~~~~~~~~~==,,.  I,,       |'
+  echo '|   .:. .:~=~~~~~~~=7~~~7?~~~~~~==:,  +..      |'
+  echo '|      ,:=~~~~~?7=~I7I~I7$~~77~~~~~=:.         |'
+  echo '|     ,~~~~:~~~~777O77777O777=~~?+~~=:.        |'
+  echo '|    ,:~~~~~777=777NNNMDNN777=I77~~:~=:.       |'
+  echo '|   .:=~~~~~~777777MMMMMMM777777+~~~~~=:       |'
+  echo '|   :+~~NZ77NNDDDNMMNMMMMMMDDDDND77$N~=~.      |'
+  echo '|  .::~~$N=ZNDNMNNDMNDMDNMDNNMMDDZ=?7~~=:.     |'
+  echo '|  ,=~~~~$DDDD77MNDDDDZDDDDNM77DDNDO~~~~:.     |'
+  echo '|  :=~~~~7777777OMMMMNNDMMMMD7777777=~~~~,     |'
+  echo '|  :=~~~~~$777777MMMMNNNMMMM777777~~~~~=~,     |'
+  echo '|  :=~~+7777777778MMMMNMMMMD77777777+~~~~,     |'
+  echo '|  ,~~~~??7$$77777MMMDNDMMM77777777?~~~=:.     |'
+  echo '|  .~=~~~~=777777778MMMMMD77777777+~~~~+:      |'
+  echo '|   ,+~~~I77I7777777MMNMM77777777$$7~~=~.      |'
+  echo '|   .~7O:~~~I777$777MMMMN7777777~~~~~OI:       |'
+  echo '|  7OZOZZ+OO77+~7777DMMMD7777~?77OOZOZOOOI     |'
+  echo '|  .,~OOZZZOOO+777=$7$I$77?77I?OOOZOZOO~,.     |'
+  echo '|   ..+OOOZOZOZO7O8I7?~7778O7OOOZOOOOO+.       |'
+  echo '|        ,ZOZOOOIZO77~~~7OOZ$OOOZZZ7           |'
+  echo '|         ..OOZOOZO~~~~~~?OZZOZOO..            |'
+  echo '|            ..OOZOOO$+IOOOZOO..               |'
+  echo '|             ~OOOO?OOOOO?OOOO~                |'
+  echo '|                .  .....  ..                  |'
+  echo "|                                              |"
+  echo "|                                              |"
+  echo "|                                              |"
+  echo "|             ---  pg break  ---               |"
+  echo "|                                              |"
+  echo "|                                              |"
+  echo "|                                              |"
+  echo "|  D.E.C.T.I.L.E.        DESIGNATION: E-CLASS  |"
+  echo "|                                              |"
+  echo "|                 TOP SECRET                   |"
+  echo "|                 ==========                   |"
+  echo "|                                              |"
+  echo "|                 CONFIDENTIAL                 |"
+  echo "|                 ============                 |"
+  echo "|                                              |"
+  echo "|  For DECTILE Personnel eyes only.            |"
+  echo "|  Unauthorized Access is Prohibitied          |"
+  echo "|                                              |"
+  echo "|  Welcome back, Agent.                        |"
+  echo "+~~~~~~~~~~~~~~~~~~~~~~~ !header terminate ~~~~+"
+}
 
+function loginStep() {
+  echo ""
+  echo "  \$-> Please log in, agent."
+  printf "  \$-> Enter your username: "
+  read username
 
+  # disallow some reserved accounts
+  if [[ "$username" == "pete" ||
+  "$username" == "PETE" ||
+  "$username" == "hutchison" ||
+  "$username" == "marshall" ||
+  "$username" == "smith" ||
+  "$username" == "hutchison" ||
+  "$username" == "sara" ||
+  "$username" == "douglass" ||
+  "$username" == "destin" ||
+  "$username" == "robert" ]]; then
+    echo ""
+    echo "  ///////////"
+    echo "  // ERROR //"
+    echo "  ///////////"
+    echo ""
+    echo "  that name, $username is already taken. $username is not a remote Agent. "
+    echo ""
+    loginStep
 
-seprarator
-echo "+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+"
-echo "| connection established                       |"
-echo "| rDNT v3.2beta_patch_iss_04.rrt     UP | OK   |"
-echo "|                                  DOWN | OK   |"
-echo "|                                              |"
-echo "|                                              |"
-echo "| swrvd.geo-sh_003.rot                         |"
-echo "|                                              |"
-echo "|                                              |"
-echo '|         I.   . ..::::::,..                   |'
-echo '|      =:. ...::=++=~~=~~=+=~:: .  .Z~         |'
-echo '|    ~,.. .::+=~~~~~~~~~~~~~~~==,,.  I,,       |'
-echo '|   .:. .:~=~~~~~~~=7~~~7?~~~~~~==:,  +..      |'
-echo '|      ,:=~~~~~?7=~I7I~I7$~~77~~~~~=:.         |'
-echo '|     ,~~~~:~~~~777O77777O777=~~?+~~=:.        |'
-echo '|    ,:~~~~~777=777NNNMDNN777=I77~~:~=:.       |'
-echo '|   .:=~~~~~~777777MMMMMMM777777+~~~~~=:       |'
-echo '|   :+~~NZ77NNDDDNMMNMMMMMMDDDDND77$N~=~.      |'
-echo '|  .::~~$N=ZNDNMNNDMNDMDNMDNNMMDDZ=?7~~=:.     |'
-echo '|  ,=~~~~$DDDD77MNDDDDZDDDDNM77DDNDO~~~~:.     |'
-echo '|  :=~~~~7777777OMMMMNNDMMMMD7777777=~~~~,     |'
-echo '|  :=~~~~~$777777MMMMNNNMMMM777777~~~~~=~,     |'
-echo '|  :=~~+7777777778MMMMNMMMMD77777777+~~~~,     |'
-echo '|  ,~~~~??7$$77777MMMDNDMMM77777777?~~~=:.     |'
-echo '|  .~=~~~~=777777778MMMMMD77777777+~~~~+:      |'
-echo '|   ,+~~~I77I7777777MMNMM77777777$$7~~=~.      |'
-echo '|   .~7O:~~~I777$777MMMMN7777777~~~~~OI:       |'
-echo '|  7OZOZZ+OO77+~7777DMMMD7777~?77OOZOZOOOI     |'
-echo '|  .,~OOZZZOOO+777=$7$I$77?77I?OOOZOZOO~,.     |'
-echo '|   ..+OOOZOZOZO7O8I7?~7778O7OOOZOOOOO+.       |'
-echo '|        ,ZOZOOOIZO77~~~7OOZ$OOOZZZ7           |'
-echo '|         ..OOZOOZO~~~~~~?OZZOZOO..            |'
-echo '|            ..OOZOOO$+IOOOZOO..               |'
-echo '|             ~OOOO?OOOOO?OOOO~                |'
-echo '|                .  .....  ..                  |'
-echo "|                                              |"
-echo "|                                              |"
-echo "|                                              |"
-echo "|             ---  pg break  ---               |"
-echo "|                                              |"
-echo "|                                              |"
-echo "|                                              |"
-echo "|  D.E.C.T.I.L.E.        DESIGNATION: E-CLASS  |"
-echo "|                                              |"
-echo "|                 TOP SECRET                   |"
-echo "|                 ==========                   |"
-echo "|                                              |"
-echo "|                 CONFIDENTIAL                 |"
-echo "|                 ============                 |"
-echo "|                                              |"
-echo "|  For DECTILE Personnel eyes only.            |"
-echo "|  Unauthorized Access is Prohibitied          |"
-echo "|                                              |"
-echo "|  Welcome back, Agent.                        |"
-echo "+~~~~~~~~~~~~~~~~~~~~~~~ !header terminate ~~~~+"
-echo ""
-echo "  \$-> Please log in, agent."
-printf "  \$-> Enter your username: "
-read username
-
-# if the user exists, load their details, password
-if [[ $(isAccountExists "$username") -eq 1 ]]; then
-  newAccount=0
-  loadAccount "$username"
-else
-  newAccount=1
-fi
-
-
-
-
-printf "  \$-> Please enter your password: "
-read enteredPassword
-echo ""
-
-# create account if new user
-if [[ $newAccount -eq 1 ]]; then
-  # new user. create account.
-  password="$enteredPassword"
-  createAccount
-else
-
-  # existing user. authenticate.
-  loadAccount "$username"
-  if [[ "$enteredPassword" == "$password" ]]; then
-    password="$enteredPassword"
+  # if the user exists, load their details, password
+  elif [[ $(isAccountExists "$username") -eq 1 ]]; then
+    newAccount=0
+    loadAccount "$username"
   else
-    echo "  \$-> Unauthorized. Session scrubbed."
-    printf '\e[1;34m%-6s\e[m\n' "Buffer overflow. :-1, -1, -1, /%&STR \"your attachment was uploaded successfully: x903p_48.83.52.hex.gz\""
-    exit 1
+    newAccount=1
   fi
+}
 
-fi
 
+function passwordStep() {
+  printf "  \$-> Please enter your password: "
+  read enteredPassword
+  echo ""
+
+  # create account if new user
+  if [[ $newAccount -eq 1 ]]; then
+    # new user. create account.
+    password="$enteredPassword"
+    createAccount
+  else
+
+    # existing user. authenticate.
+    loadAccount "$username"
+    if [[ "$enteredPassword" == "$password" ]]; then
+      password="$enteredPassword"
+    else
+      echo "  \$-> Unauthorized. Session scrubbed."
+      printf '\e[1;34m%-6s\e[m\n' "Buffer overflow. :-1, -1, -1, /%&STR \"your attachment was uploaded successfully: x903p_48.83.52.hex.gz\""
+      loginStep
+    fi
+
+  fi
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#
+# game script
+#
+connectionHeader
+loginStep
+passwordStep
 
 # only arrive here if authorized
 echo "  #-> Welcome back, $username."
