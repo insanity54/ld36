@@ -7,7 +7,6 @@ var app = express();
  * root dir for sanity checks
  */
 app.get('/', function(req, res) {
-    res.set({'Content-Type': 'image/png'});
     res.send('./index.html');
 });
 
