@@ -15,13 +15,39 @@ app.use(bodyParser.json()); // parse application/json
 app.post('/ld36/sms', function(req, res) {
     console.log(req.body);
     var sender = req.body["From"];
-    //throw 'thats what u get';
+    var senderMessagae = req.body['Text'];
+
     var r = plivo.Response();
-    var smsOptions = {
-      message: "Network Engineers Frontier SMS Gateway. Reply with your party's extension.",
-      src: "15092625208",
-      dst: sender
-    };
+    var smsOptions = {};
+
+    // Pete's Ext
+    if (senderMessage == 'A382' || senderMessage == 'a382') {
+      smsOptions.message = "x843p_33.32.12.txt.hex";
+    }
+
+    // Sara's Ext
+    else if (senderMessage == 'DV47' || senderMessage == 'dv47') {
+      smsOptions.message = 'x666p_66.66.66.txt.hex';
+    }
+
+    // Marshall's Ext
+    else if (senderMessage == '43E0' || senderMessage == '43e0') {
+      smsOptions.message = 'x448p_21.21.21.txt.hex';
+    }
+
+    // Dr. Destin's Ext
+    else if (senderMessage == '88Z2' || senderMessage == '88z2') {
+      smsOptions.message = 'x903p_48.83.52.txt.hex';
+    }
+
+
+    else {
+      smsOptions.message = "Network Engineers Frontier SMS Gateway. Reply with your extension."
+    }
+
+    smsOptions.src = "15092625208";
+    smsOptions.dst = sender;
+
     r.addMessage();
     res.set({
         'Content-Type': 'text/xml'

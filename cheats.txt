@@ -1,0 +1,42 @@
+# 509-262-5208
+
+A382 - Pete Hutchison's extension. gives "x342p_89.12.55.hex"
+43E0 - Marshall Smith's extension.
+DV47 - Sara Douglas's extension.
+88Z2 - Dr. Robert Destin's extension.
+
+
+# Eggs
+
+x111p_32.64.48.txt - got from CAGI menu. gives Pete is going to release GOD
+x222p_11.23.82.txt - got from the DECTILE logo. gives url to e-mail login
+x448p_21.21.21.txt - got from smith's SMS. gives Sara's signature/extention
+x812p_88.98.53.txt - got from ???. gives "YOU WIN THE GAME! Thanks for playing"
+x843p_33.32.12.txt - got from Pete's e-mail to Sara. gives Pete's password "b33tmon3y"
+x903p_48.83.52.txt - got from Dr.Destin's SMS. gives dr's plead with Pete to quit messing with X8342
+x342p_89.12.55.txt - got from pete's sms. gives path to Pete's inbox
+x399p_23.66.32.txt - got from marshall smith's sms. gives x448p_21.21.21.txt
+x666p_66.66.66.txt - got from sara's SMS. Gives IP address
+x000p_01.00.10.txt - got from Pete's last email. Gives incantation to disable the scepter
+
+
+# http://162.253.177.98/
+
+Hidden in the image (blended into its transparent background) gives x222p_11.23.82.txt
+
+
+
+# Game Flow
+
+* Player creates account/logs in
+* Player explores MENU
+* Player
+
+
+# Player Goals
+
+* [ ] Find the full name of the culprit who activated X-3842
+* [ ] RV the scepter or Pete
+* [ ] Reverse the expansion of X-3842's ZM field
+  * [ ] Use Inception on Pete to move Pete's mouth, uttering the disenchantment
+  * [ ] Use Inception on Pete to release Pete's grasp
