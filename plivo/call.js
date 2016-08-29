@@ -14,14 +14,19 @@ app.use(bodyParser.json()); // parse application/json
 /** SMS received **/
 app.post('/ld36/sms', function(req, res) {
     console.log(req.body);
-    throw 'thats what u get';
+    var sender = req.body["From"];
+    //throw 'thats what u get';
     var r = plivo.Response();
     var smsOptions = {
       message: "Network Engineers Frontier SMS Gateway. Reply with your party's extension.",
       src: "15092625208",
-      dst: ""
+      dst: sender
     };
-    r.addMessage()
+    r.addMessage();
+    res.set({
+        'Content-Type': 'text/xml'
+    });
+    res.end(r.toXML());
 
 });
 
