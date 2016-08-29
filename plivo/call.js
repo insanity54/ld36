@@ -2,12 +2,13 @@ var plivo = require('plivo-node');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+var path = require('path');
 
 /**
  * root dir for sanity checks
  */
 app.get('/', function(req, res) {
-    res.sendFile('./index.html');
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 
