@@ -4,13 +4,15 @@
   "description": "",
   "main": "call.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nf run node call"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "foreman": "^2.0.0",
     "plivo-node": "^0.2.5"
   }
 }
