@@ -7,7 +7,7 @@ var app = express();
  * root dir for sanity checks
  */
 app.get('/', function(req, res) {
-    res.send('./index.html');
+    res.sendFile('./index.html');
 });
 
 
