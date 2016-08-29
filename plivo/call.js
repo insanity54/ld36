@@ -5,11 +5,9 @@ var app = express();
 var path = require('path');
 
 /**
- * root dir for sanity checks
+ * serve static
  */
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+app.use(express.static('dist'));
 
 
 /**
