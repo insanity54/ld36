@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // Required for parsing POS
 app.use(bodyParser.json()); // parse application/json
 
 /** SMS received **/
-app.post('/ld36/sms/inbound', function(req, res) {
+app.post('/ld36/sms', function(req, res) {
     console.log(req.body);
     throw 'thats what u get';
     var r = plivo.Response();
