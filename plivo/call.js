@@ -45,8 +45,9 @@ app.post('/ld36/sms', function(req, res) {
       smsOptions.text = "Network Engineers Frontier SMS Gateway. Reply with your extension."
     }
 
-    smsOptions.src = "15092625208";
+    smsOptions.src = 15092625208;
     smsOptions.dst = sender;
+    console.log(r.toXML());
 
     r.addMessage(smsOptions);
     res.set({
