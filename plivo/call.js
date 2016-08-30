@@ -48,7 +48,7 @@ app.post('/ld36/sms', function(req, res) {
     smsOptions.src = "15092625208";
     smsOptions.dst = sender;
 
-    r.addMessage();
+    r.addMessage(smsOptions);
     res.set({
         'Content-Type': 'text/xml'
     });
