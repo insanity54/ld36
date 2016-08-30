@@ -11,7 +11,7 @@ isLevelPeteMouthBlocked=1        # blocked until player closes Pete's session
 isLevelPeteHandBlocked=1         # blocked until player closes Pete's session
 isLevelEnchantmentBlocked=1      # blocked until player learns enchantment
 isLevelDisenchantmentBlocked=1   # blocked until player learns disenchantment
-
+suso=0
 
 function isAccountExists() {
   # If the account exists, return true
@@ -75,6 +75,33 @@ function separator() {
   echo ""
   echo ""
   echo ""
+}
+
+function isHexMessageExits() {
+  if [[ -f "eggs/$(basename $1 .hex)" ]]; then
+    echo 1
+  else
+    echo 0
+  fi
+}
+
+function displayHexMessage() {
+  if [[ -z "$1" ]]; then
+    echo "  You did not enter a hex message filename. Please try again."
+
+  elif [[ $(isHexMessageExits "$1") -eq 1 ]]; then
+    separator
+    cat "eggs/$(basename $1 .hex)" | xxd -p
+    echo ""
+
+  else
+    echo "  ///////////////////"
+    echo "  //     ERROR     //"
+    echo "  ///////////////////"
+    echo ""
+    echo "  That hex file does not exist."
+  fi
+
 }
 
 function isXDBExists() {
@@ -260,24 +287,173 @@ menuMMR() {
 
 
 menuCARVE() {
-  menuHEADER "COMPUTER AIDED REMOTE VIEWING"
-  echo "  1) RV    ..........  Remote View a target"
-  echo "  2) MAIN  ..........  Return to Main Menu"
+  if [[ $suso -eq 1 ]]; then
+    echo "  ////////////////////"
+    echo "  // CRITICAL ERROR //"
+    echo "  ////////////////////"
+    echo ""
+    echo "  mind5sum mismatch. You are obviously not who you say you are."
+    echo "  CARVE session must originate from the Esper's genuine body."
+    echo ""
+  else
+    menuHEADER "COMPUTER AIDED REMOTE VIEWING"
+    echo "  1) RV    ..........  Remote View a target"
+    echo "  2) MAIN  ..........  Return to Main Menu"
+    echo ""
+    printf "  #-> "
+    read selection
+    if   [[ $selection -eq 1 || $selection == 'RV' || $selection == 'rv' ]]; then
+      printf "  Enter target designation: "
+      read target
+      remoteView "$target"
+    elif [[ $selection -eq 2 || $selection == 'MAIN' || $selection == 'main' ]]; then
+      menu
+    fi
+    echo "  Please make a selection."
+  fi
+  menu
+}
+
+function menuMARCLookup() {
+  menuHEADER "HEX MESSAGE DISPLAY SUITE"
+  printf "  Enter the HEX message filename: "
+  read lookup
+  displayHexMessage "$lookup"
+}
+
+
+function menuMARC() {
+  menuHEADER "D.E.C.T.I.L.E. MESSAGE ARCHIVE"
+  echo "  1) LOOKUP  ..........  Lookup a hex message using its filename"
+  echo "  2) MAIN    ..........  Return to Main Menu"
   echo ""
   printf "  #-> "
   read selection
-  if   [[ $selection -eq 1 || $selection == 'RV' || $selection == 'rv' ]]; then
-    printf "  Enter target designation: "
-    read target
-    remoteView "$target"
+  if   [[ $selection -eq 1 || $selection == 'LOOKUP' || $selection == 'lookup' ]]; then
+    menuMARCLookup
   elif [[ $selection -eq 2 || $selection == 'MAIN' || $selection == 'main' ]]; then
     menu
+  else
+    echo "  Please make a selection."
   fi
-  echo "  Please make a selection."
-  menuCARVE
+  menuMARC
 }
 
-mail() {
+function testWinCondition() {
+  good=0
+
+  if [[ $isLevelPeteHandBlocked -eq 1 ]]; then
+    echo "  [ ] The lethal lighting is still being emitted from X-8342"
+  else
+    echo "  [x] The lethal lightning emitting from X-8342 has ceased."
+    good=$(($good+1))
+  fi
+
+  if [[ $isLevelPeteMouthBlocked -eq 1 ]]; then
+    echo "  [ ] The scepter is still emitting it's deadly ZM field"
+  else
+    echo "  [x] the scepter deactivated it's ZM field."
+    good=$(($good+1))
+  fi
+
+  if [[ $good -eq 2 ]]; then
+    separator
+    separator
+    separator
+    printf '\e[1;34m%-6s\e[m\n' "\"x812p_88.98.53.txt.hex\""
+    separator
+    menu
+  fi
+}
+
+function suso() {
+  if [[ -n "$1" ]]; then
+    if [[ "$1" == "pete" || "$1" == "PETE" || "$1" == "hutchison" || "$1" == "hutchison.pete" || "$1" == "hutchison.pete@robertsaresearch.rot" ]]; then
+      susoUsername="pete"
+    elif [[ "$1" == "marshall" || "$1" == "marshall" || "$1" == "smith.marshall" || "$1" == "smith.marshall@networkengineersfrontier.rot" ]]; then
+      susoUsername="marshall"
+    elif [[ "$1" == "sara" || "$1" == "douglass" || "$1" == "douglass.sara" || "$1" == "douglass.sara@worsteshireitservices.rot" ]]; then
+      susoUsername="sara"
+    elif [[ "$1" == "robert" || "$1" == "destin" || "$1" == "destin.robert" || "$1" == "destin.robert@rotchfordelectronics.rot" ]]; then
+      susoUsername="robert"
+    else
+      echo "  ///////////"
+      echo "  // ERROR //"
+      echo "  ///////////"
+      echo ""
+      echo "  That user is not in the system."
+      menuESOL
+    fi
+
+    ## suso loginStep
+    printf "  \$-> Please enter the user's password: "
+    read enteredPassword
+    echo ""
+
+    loadAccount "$susoUsername"
+    if [[ "$enteredPassword" == "$password" ]]; then
+      password="$enteredPassword"
+      suso=1
+    else
+      echo "  \$-> Incorrect SUS Password. SUS Botch." #@todo there could be a HEX message here
+      echo ""
+      suso=0
+    fi
+    menuESOL
+
+  else
+    echo "  ///////////"
+    echo "  // ERROR //"
+    echo "  ///////////"
+    echo ""
+    echo "  you did not enter a name. try again"
+    menuESOL
+  fi
+}
+
+function menuESOLSwap() {
+  menuHEADER "SECURE USER SWAP"
+  printf "  Enter the username you would like to switch to: "
+  read swapto
+  suso "$swapto"
+}
+
+function menuESOL() {
+  menuHEADER "D.E.C.T.I.L.E. LOGGER"
+  echo "  --- Log Status ---"
+
+  if [[ $suso -eq 1 ]]; then
+    echo "  YOU ARE LOGGED IN AS $susoUsername"
+  else
+    echo "  YOU ARE LOGGED IN AS $username"
+  fi
+
+  echo "  --- End Log Status ---"
+  echo ""
+  echo "  1) LOG   ..........  Scrub session and log out"
+  echo "  2) SUS   ..........  Secure User Swap. Switch to a different user account"
+  echo "  3) MAIN  ..........  Return to Main Menu"
+  echo ""
+  printf "  #-> "
+  read selection
+  if   [[ $selection -eq 1 || $selection == 'LOG' || $selection == 'log' ]]; then
+    echo "  Closing secure session."
+    spinner
+    echo "  LOGGED."
+    echo "  DECTILE Remote Client v8.32_patch002_msp -- Closed."
+    exit 0
+  elif [[ $selection -eq 2 || $selection == 'SUS' || $selection == 'sus' ]]; then
+    menuESOLSwap
+  elif [[ $selection -eq 3 || $selection == 'MAIN' || $selection == 'main' ]]; then
+    menu
+  else
+    echo "  Please make a selection."
+  fi
+  menuESOL
+}
+
+
+function mail() {
   echo "\"/var/mail/$username\": 1 message 1 new"
   echo ">N   1 $username             $date  17/510   CASE-00$(($level+1)).txt"
   echo "&"
@@ -292,12 +468,77 @@ mail() {
     sed s/{{username}}/"$username"/g messages/CASE-001.txt | more
   else
     separator
-    echo "MAIL TRUNCATED. // Error message x812p_88.98.53.hex.gz"
+    echo "MAIL TRUNCATED. // Error message x812p_88.98.53.txt.hex"
     separator
     menu
   fi
 
   menu
+}
+
+menuCAGIInsertSuso() {
+  menuHEADER "CAGI (SUS PRIVILEDGES)"
+  echo "  License key b.293_fr detected. CAGI Access granted."
+  echo ""
+  echo "  1) THT   ..........  Inject regurgitated knowledge"
+  echo "  2) HAN   ..........  Manipulate target's hand"
+  echo "  3) FAC   ..........  Manipulate target's face"
+  echo "  4) MAIN  ..........  Return to Main Menu"
+  echo ""
+  printf "  #-> "
+  read selection
+  if   [[ $selection -eq 1 || $selection == 'THT' || $selection == 'tht' ]]; then
+    echo "  Attempting idea injection"
+    spinner
+    echo "  //////////////"
+    echo "  // FAILURE. //"
+    echo "  //////////////"
+    echo ""
+    echo "  Error: The target's thought process appears to be offline."
+    echo ""
+
+  elif [[ $selection -eq 2 || $selection == 'HAN' || $selection == 'han' ]]; then
+    echo "  Attempting hand manipulation"
+    spinner
+    echo ""
+    echo "  SUCCESS! - The target's hand has released X-3842"
+    isLevelPeteHandBlocked=0
+    testWinCondition
+    echo ""
+
+  elif [[ $selection -eq 3 || $selection == 'FAC' || $selection == 'fac' ]]; then
+    echo "  Attempting mouth manipulation."
+    printf "  Please enter the phrase the target should speak: "
+    read speakPhrase
+
+    goodCount=0
+    echo "$speakPhrase" | grep -i -q 'yi'
+    if [[ $? -eq 0 ]]; then
+      goodCount=$(($goodCount+1))
+    fi
+    echo "$speakPhrase" | grep -i -q 'yang'
+    if [[ $? -eq 0 ]]; then
+      goodCount=$(($goodCount+1))
+    fi
+    spinner
+    echo ""
+
+
+    if [[ $goodCount -eq 2 ]]; then
+      echo "  SUCCESS! - The target Pete uttered, \"Shee Sun Yang, Shi Sun Yi. I am free, devil in thee.\""
+      isLevelPeteMouthBlocked=0
+
+    else
+      echo "  CLOSE, BUT NO CIGAR. - The target Pete uttered the phrase, but it had no effect on X-8342."
+    fi
+
+    testWinCondition
+    echo ""
+  elif [[ $selection -eq 4 || $selection == 'MAIN' || $selection == 'main' ]]; then
+    echo "returning to main menu"
+    main
+  fi
+  menuCAGIInsertSuso
 }
 
 
@@ -342,9 +583,13 @@ function menuCAGIInsert() {
 
 
   else
-    echo "  Access Restricted by DRM."
-    echo "  License key b.293_fr required to unlock this feature. "
-    printf '\e[1;34m%-6s\e[m\n' "Buffer overflow. :-1, -1, -1, /%&STR \"POSTMESSENGER Fatal Delivery Failure: x111p_32.64.48.hex.gz\""
+    if [[ $suso -eq 1 && $susoUsername == 'pete' ]]; then
+      menuCAGIInsertSuso
+    else
+      echo "  Access Restricted by DRM."
+      echo "  License key b.293_fr required to unlock this feature. "
+      printf '\e[1;34m%-6s\e[m\n' "Buffer overflow. :-1, -1, -1, /%&STR \"POSTMESSENGER Fatal Delivery Failure: x111p_32.64.48.txt.hex\""
+    fi
     menu
   fi
 }
@@ -539,7 +784,7 @@ function passwordStep() {
       password="$enteredPassword"
     else
       echo "  \$-> Unauthorized. Session scrubbed."
-      printf '\e[1;34m%-6s\e[m\n' "Buffer overflow. :-1, -1, -1, /%&STR \"your attachment was uploaded successfully: x903p_48.83.52.hex.gz\""
+      printf '\e[1;34m%-6s\e[m\n' "Buffer overflow. :-1, -1, -1, /%&STR \"your attachment was uploaded successfully: x903p_48.83.52.txt.hex\""
       loginStep
     fi
 
