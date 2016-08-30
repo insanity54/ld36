@@ -22,27 +22,27 @@ app.post('/ld36/sms', function(req, res) {
 
     // Pete's Ext
     if (senderMessage == 'A382' || senderMessage == 'a382') {
-      smsOptions.message = "x843p_33.32.12.txt.hex";
+      smsOptions.text = "x843p_33.32.12.txt.hex";
     }
 
     // Sara's Ext
     else if (senderMessage == 'DV47' || senderMessage == 'dv47') {
-      smsOptions.message = 'x666p_66.66.66.txt.hex';
+      smsOptions.text = 'x666p_66.66.66.txt.hex';
     }
 
     // Marshall's Ext
     else if (senderMessage == '43E0' || senderMessage == '43e0') {
-      smsOptions.message = 'x448p_21.21.21.txt.hex';
+      smsOptions.text = 'x448p_21.21.21.txt.hex';
     }
 
     // Dr. Destin's Ext
     else if (senderMessage == '88Z2' || senderMessage == '88z2') {
-      smsOptions.message = 'x903p_48.83.52.txt.hex';
+      smsOptions.text = 'x903p_48.83.52.txt.hex';
     }
 
 
     else {
-      smsOptions.message = "Network Engineers Frontier SMS Gateway. Reply with your extension."
+      smsOptions.text = "Network Engineers Frontier SMS Gateway. Reply with your extension."
     }
 
     smsOptions.src = "15092625208";
