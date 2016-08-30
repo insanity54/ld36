@@ -15,7 +15,7 @@ app.use(bodyParser.json()); // parse application/json
 app.post('/ld36/sms', function(req, res) {
     console.log(req.body);
     var sender = req.body["From"];
-    var senderMessagae = req.body['Text'];
+    var senderMessage = req.body['Text'];
 
     var r = plivo.Response();
     var smsOptions = {};
