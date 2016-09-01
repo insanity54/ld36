@@ -18,6 +18,7 @@ DV47 - Sara Douglas's extension.
 * [x] - x399p_23.66.32.txt.hex - got from marshall smith's sms. gives x448p_21.21.21.txt
 * [x] - x666p_66.66.66.txt.hex - got from sara's SMS. Gives IP address
 * [x] - x000p_01.00.10.txt.hex - got from Pete's last email. Gives incantation to disable the scepter
+* [x] - x328p_83.11.09.txt.hex - got from ??? Gives sara's advice on username schema
 * [x] - doctor destin's extension - got from pete's last email
 * [x] - website
 * [x] - full path to inbox

@@ -60,18 +60,32 @@ app.post('/ld36/sms', function(req, res) {
 });
 
 
-app.post('/ld36/marshall.smith/hangup/', function(req, res) {
-  //console.log('hangup check');
-  //console.log(req.query);
-  var hangup = req.params['HangupCause'];
-  var id = req.params['CallUUID'];
+app.post('/ld36/sms', function(req, res) {
+  console.log(req.body);
 
-  if (hangup) {
-      console.log("This call is done! call id: "+id+" HangupCause: "+hangup);
-  }
+  var r = plivo.Response();
+  var audio = 'http://162.253.177.98/dist/smsgateway.mp3';
 
-  return res.status(200).send('THANKS FOR LETTING ME KNOW');
+  r.addPlay(audio);
+  res.set({
+      'Content-Type': 'text/xml'
+  });
+  res.end(r.toXML());
+
 });
+
+// app.post('/ld36/marshall.smith/hangup/', function(req, res) {
+//   //console.log('hangup check');
+//   //console.log(req.query);
+//   var hangup = req.params['HangupCause'];
+//   var id = req.params['CallUUID'];
+//
+//   if (hangup) {
+//       console.log("This call is done! call id: "+id+" HangupCause: "+hangup);
+//   }
+//
+//   return res.status(200).send('THANKS FOR LETTING ME KNOW');
+// });
 
 app.listen(process.env.PORT || 5000);
 console.log('listening on %s', process.env.PORT || 5000);
