@@ -22,3 +22,7 @@ deploy server
 apt-get install python-support
 download/install python tornado
 download/install gateone deb
+
+
+establish automatic ssh connection for gateone:
+http://ld36.xtoast.com:8000?ssh=ssh://agent@ld36.xtoast.com/
