@@ -17,11 +17,17 @@ There is nothing stopping you from cheating, but if you want to play the game as
 
 ## dev notes
 
-deploy server
+### deploy server
 
-apt-get install python-support
-download/install python tornado
-download/install gateone deb
+
+docker run -d --name gateone -p 8000:8000 liftoff/gateone
+docker stop gateone
+docker cp gateone/10server.conf gateone:/etc/gateone/conf.d/10server.conf
+docker cp gateone/ld36.key gateone:/gateone/users/ANONYMOUS/.ssh/
+docker start gateone
+
+
+
 
 
 establish automatic ssh connection for gateone:
