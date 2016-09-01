@@ -64,7 +64,7 @@ app.post('/ld36/sms', function(req, res) {
   console.log(req.body);
 
   var r = plivo.Response();
-  var audio = 'http://162.253.177.98/dist/smsgateway.mp3';
+  var audio = 'http://162.253.177.98/smsgateway.mp3';
 
   r.addPlay(audio);
   res.set({
