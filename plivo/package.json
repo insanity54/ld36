@@ -5,7 +5,8 @@
   "main": "call.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "forever start --uid \"ld36\" --append call.js"
+    "start": "forever start --uid \"ld36\" --append call.js",
+    "stop": "forever stop ld36"
   },
   "author": "",
   "license": "MIT",
