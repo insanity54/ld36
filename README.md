@@ -25,5 +25,5 @@ As of July 2018, the game is back to a Work-In-Progress. , it is getting an over
 
 ![MOTD](https://raw.githubusercontent.com/insanity54/ld36/master/lib/promo/ss1-4.png)
 ![Mail Server](https://raw.githubusercontent.com/insanity54/ld36/master/lib/promo/ss2-1.png)
-![Mail](https://raw.githubusercontent.com/insanity54/ld36/master/lib/promo/ss3.png)
+![Mail](https://raw.githubusercontent.com/insanity54/ld36/master/lib/promo/SS3.png)
 ![Remote Viewing](https://raw.githubusercontent.com/insanity54/ld36/master/lib/promo/SS4.png)
