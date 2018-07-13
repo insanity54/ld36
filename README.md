@@ -19,7 +19,7 @@ Agents of D.E.C.T.I.L.E. is a game about solving mysteries of supernatural origi
 
 This is a game that started during [ludum dare](http://ldjam.com/) 36, a weekend global game jam. The game started out as a [bash script](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) which players accessed through [SSH](https://en.wikipedia.org/wiki/Secure_Shell). This was not very user friendly, unless the player was already a developer/techie/nerd, etcetera. While it lacked polish, the game was completely playable and winnable for end of [ld36](http://ludumdare.com/compo/ludum-dare-36/).
 
-As of July 2018, the game is back to a Work-In-Progress. , it is getting an overhaul focusing on ease of use. [I](https://grimtech.net/about) think it's worth playing for players who enjoy solving puzzles, but don't care to learn how to SSH into a server.
+As of July 2018, the game is back to a Work-In-Progress. It is getting an overhaul focusing on ease of use. [I](https://grimtech.net/about) think it's worth playing for those who enjoy solving puzzles, but don't care to learn how to SSH into a server.
 
 ## Screenshots
 
