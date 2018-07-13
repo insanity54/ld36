@@ -1,0 +1,7 @@
+Sara, what's wrong with the website? The name is broken, it just keeps redirecting me to http://162.253.177.98/.
+
+The website is up, so it's not critical at the moment, but it's ugly with those weird numbers instead of the name.
+
+Can you fix it?
+
+--

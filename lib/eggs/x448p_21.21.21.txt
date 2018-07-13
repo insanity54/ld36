@@ -1,0 +1,20 @@
+Dear Dr. Destin, I hope you're doing well.
+
+Again I just want to say thanks for bringing me onto the team. I believe I can do a lot of good here. I spent a few days reading the last IT manager's documentation, I can see what you mean about your legacy system giving your grief; it is really out of date!
+
+First thing I'd like to do is to migrate ArchiveFS to a modern research database, ServoQL. I hate to say it, but I have no idea how the ArchiveFS is still functioning. Every third query to ArchiveFS crashes the manager daemon, every day at 5PM the defrag routine crashes the storage array, and every other Tuesday ArchiveFS is down between 8 and 10 AM. The data here is important, and ArchiveFS needs updating straight away to ensure the research history continues to exist.
+
+The migration is a fairly straightforward process, the only challenge I see is shimming the API of the existing archive to match that of the modern schema import algorithm. With help from Pete, I say this process will take two weeks.
+
+The next thing on the list is communications security. I hate to be the bearer of bad news, but from a security perspective, this is the worst system I have ever seen. Anyone anywhere on the planet can remote into the mail server, and read anybody's e-mail. Yes, you have passwords, but think of it like this. There is a gate at the front of your house, and you need a key (password) to get through the gate. Or, you can simply walk around the gate because there is no wall connected to this gate!
+
+I have seen over a dozen gaping security holes in this system. From e-mail, to the DOCTILE remote access client on swrvd.geo-sh_003.rot, I have seen cleartext passwords leaked as message attachments, Buffer Overflows leaking MARC files... Again, I hate to be a Negative Nancy, but whoever implemented the e-mail server was completely incompetent. I have my work cut out for me, but I'm not complaining! I know I can fix all these problems, and I'll be upgrading every needed system in the coming weeks.
+
+Let me know if you have any questions. See you in the meeting on Thursday.
+
+
+--
+
+Sara Douglass
+douglass.sara@worsteshireitservices.rot
++1 509-262-5208 ext. DV47

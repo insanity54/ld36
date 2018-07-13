@@ -1,0 +1,21 @@
+{
+  "name": "plivo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "call.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "forever start --uid \"ld36\" --append call.js",
+    "stop": "forever stop ld36"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "foreman": "^2.0.0",
+    "forever": "^0.15.2",
+    "forever-monitor": "^1.7.0",
+    "plivo-node": "^0.2.5"
+  }
+}

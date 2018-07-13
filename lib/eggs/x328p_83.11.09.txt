@@ -1,0 +1,5 @@
+Dr. Destin,
+
+Another thing I think we can improve on is the naming scheme of computer system usernames. Currently, usernames are first name, with all lowercase letters. There are a number of Chris's working here, and it doesn't make sense to have chris1, chris2, and chris3. The numbers are not intuitive. Which Chris is chris2? A more standard way for usernames is to use the person's last name, followed by a period, followed by their first name.
+
+For example, right now, your username is, "r[[&MESSAGE_TRUCATED]]

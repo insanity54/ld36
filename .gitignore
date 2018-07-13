@@ -1,1 +1,6 @@
 .terraform
+data
+yarn-error.log
+npm-debug.log
+node_modules/
+
