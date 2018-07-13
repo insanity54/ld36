@@ -1,3 +1,0 @@
-password=coordinates-r-a-go
-username=marshall
-level=1

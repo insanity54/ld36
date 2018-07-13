@@ -4,13 +4,34 @@
   "description": "hai",
   "main": "index.js",
   "dependencies": {
-    "bower": "^1.7.9",
-    "phaser": "^2.6.2"
+    "bluebird": "^3.5.1",
+    "json-rpc2": "^1.0.2",
+    "nedb": "^1.8.0",
+    "validator": "^10.4.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "bower": "^1.8.4",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.0",
+    "file-loader": "^1.1.11",
+    "foreman": "^3.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
+    "jquery.terminal": "^1.18.0",
+    "nodemon": "^1.18.0",
+    "phaser": "^2.6.2",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8"
+  },
   "scripts": {
-    "build": "browserify ./main.js -o ./dist/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "./node_modules/foreman/nf.js start",
+    "start": "node ./lib_server/index"
   },
   "repository": {
     "type": "git",
@@ -21,5 +42,14 @@
   "bugs": {
     "url": "https://github.com/insanity54/ld36/issues"
   },
-  "homepage": "https://github.com/insanity54/ld36#readme"
+  "homepage": "https://github.com/insanity54/ld36#readme",
+  "keywords": [
+    "supernatural",
+    "cybermancy",
+    "divine",
+    "agent",
+    "simulator",
+    "game",
+    "esp"
+  ]
 }
