@@ -25,5 +25,13 @@ describe('app', () => {
       done();
     });
   });
+  
+  it('should serve system.describe JSON-RPC method', (done) => {
+    client.call('system.describe', function(err, result) {
+      assert.isNull(err);
+      assert.isObject(result);
+      done();
+    });
+  });
 });
 
