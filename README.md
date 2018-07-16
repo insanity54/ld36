@@ -15,7 +15,7 @@ Wh. What's that? My pilot is telling me his instruments are getting some sort of
 
 ## About this project
 
-https://travis-ci.org/insanity54/ld36.svg?branch=master
+[![Build Status](https://travis-ci.org/insanity54/ld36.svg?branch=master)](https://travis-ci.org/insanity54/ld36)
 
 Agents of D.E.C.T.I.L.E. is a game about solving mysteries of supernatural origin. Agents employ methods such as remote viewing and other extra-sensory perceptions to gather clues and solve cases that no other agency on Earth can handle. Part [metagame](https://en.wikipedia.org/wiki/Metagaming), players may be required to resort to methods such as placing phone calls or visiting websites to complete their tasks.
 
