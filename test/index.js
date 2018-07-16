@@ -1,10 +1,10 @@
 
 
-const path = require('path');
-const assert = require('chai').assert;
-const app = require(path.join(__dirname, '..', 'lib_server', 'index'));
-const rpc = require('json-rpc2');
-const client = rpc.Client.$create(5000, 'localhost');
+var path = require('path');
+var assert = require('chai').assert;
+var app = require(path.join(__dirname, '..', 'lib_server', 'index'));
+var rpc = require('json-rpc2');
+var client = rpc.Client.$create(5000, 'localhost');
 
 
 
