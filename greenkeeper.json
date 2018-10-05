@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "lib/plivo/package.json",
+        "package.json"
+      ]
+    }
+  }
+}
