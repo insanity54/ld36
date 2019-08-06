@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/insanity54/ld36.svg?branch=master)](https://travis-ci.org/insanity54/ld36)
 
+Video Overview https://www.youtube.com/watch?v=6VIfc-pbzrs
+
 Agents of D.E.C.T.I.L.E. is a game about solving mysteries of supernatural origin. Agents employ methods such as remote viewing and other extra-sensory perceptions to gather clues and solve cases that no other agency on Earth can handle. Part [metagame](https://en.wikipedia.org/wiki/Metagaming), players may be required to resort to methods such as placing phone calls or visiting websites to complete their tasks.
 
 This is a game that started during [ludum dare](http://ldjam.com/) 36, a weekend global game jam. The game started out as a [bash script](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) which players accessed through [SSH](https://en.wikipedia.org/wiki/Secure_Shell). This was not very user friendly, unless the player was already a developer/techie/nerd, etcetera. While it lacked polish, the game was completely playable and winnable for end of [ld36](http://ludumdare.com/compo/ludum-dare-36/).
